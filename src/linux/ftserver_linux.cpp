@@ -8,6 +8,7 @@
 
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 
 FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
 
@@ -19,8 +20,8 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
     //1=server
     ((int *)this->m_tube)[2] = 1;
 
-    datas["initlock"] = new std::mutex();
-    ((std::mutex*)datas["initlock"])->lock();
+	datas["initlock"] = new std::mutex();
+	datas["initcv"] = new std::condition_variable();
 
     std::thread bs([this](){
         std::mutex* mtx = (std::mutex*)this->datas["initlock"];
@@ -45,8 +46,8 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
         ((int *)this->m_tube)[0] = c2sfd;
         ((int *)this->m_tube)[1] = s2cfd;
 
-        mtx->unlock();
         this->m_status = FT_NS::TubeStatus::TS_READY;
+		((std::condition_variable*)datas["initcv"])->notify_all();
     });
     bs.detach();
 
@@ -63,9 +64,12 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::close(){
     }
     if(this->datas.find("initlock") != this->datas.end()){
         std::mutex* mtx = (std::mutex*)this->datas["initlock"];
+		std::condition_variable* initcv = (std::condition_variable*)datas["initcv"];
         this->datas.erase("initlock");
-        mtx->unlock();
+        this->datas.erase("initcv");
+		initcv->notify_all();
         delete mtx;
+        delete initcv;
     }
     this->m_status = FT_NS::TubeStatus::TS_CLOSED;
     return FT_NS::ResultStatus::RS_SUCCESS;

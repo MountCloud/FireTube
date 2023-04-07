@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <mutex>
+#include <condition_variable>
 
 FT_NS::ResultStatus FT_NS::FireTubeBase::init(){
     //client write c2s pipe,read s2c pipe.
@@ -61,10 +62,11 @@ FT_NS::ResultStatus FT_NS::FireTubeBase::close(){
 }
 
 FT_NS::FT_SIZE FT_NS::FireTubeBase::read(char* buffer, FT_SIZE size){
-    if(this->m_status == FT_NS::TubeStatus::TS_NEW){
+	if(this->m_status == FT_NS::TubeStatus::TS_NEW){
         std::mutex* mtx = (std::mutex*)this->datas["initlock"];
-        mtx->lock();
-        mtx->unlock();
+		std::condition_variable* initcv = (std::condition_variable*)datas["initcv"];
+		std::unique_lock<std::mutex> lck(*mtx);
+		initcv->wait(lck);
     }
      //if status
     if (this->m_status != FT_NS::TubeStatus::TS_READY)
@@ -93,10 +95,11 @@ FT_NS::FT_SIZE FT_NS::FireTubeBase::read(char* buffer, FT_SIZE size){
 }
 
 FT_NS::FT_SIZE FT_NS::FireTubeBase::write(char* buffer, FT_SIZE size){
-    if(this->m_status == FT_NS::TubeStatus::TS_NEW){
+	if(this->m_status == FT_NS::TubeStatus::TS_NEW){
         std::mutex* mtx = (std::mutex*)this->datas["initlock"];
-        mtx->lock();
-        mtx->unlock();
+		std::condition_variable* initcv = (std::condition_variable*)datas["initcv"];
+		std::unique_lock<std::mutex> lck(*mtx);
+		initcv->wait(lck);
     }
     //if status
     if (this->m_status != FT_NS::TubeStatus::TS_READY)
