@@ -1,46 +1,43 @@
-#include "firetube.h"
-
+#include "ftserver.h"
+#include <memory.h>
 #include <iostream>
-#include <windows.h>
 using namespace std;
 
 //tube name
 #define TUBE_NAME "testtube"
 
 //tube server
-void main(){
-	firetube::FireTube tube = firetube::FireTube();
-
+int main(){
 	//create firetube server
 	firetube::ResultStatus createResult = firetube::ResultStatus::RS_SUCCESS;
-	firetube::FireTubeServer* server = tube.createServer(TUBE_NAME,&createResult);
+	firetube::FireTubeServer* server = firetube::FireTubeServer::createServer(TUBE_NAME,&createResult);
 	//check if server is null
 	if (server == NULL)
 	{
 		cout << "create server fail." << endl;
 		system("pause");
-		return;
+		return -1;
 	}
 
-	//hold server is ready
-	while(true){
-		if(server->getStatus() == firetube::TubeStatus::TS_READY){
-			break;
-		}
-		Sleep(100);
-	}
 
 	//client send data onece
-	char buffer[1024] = "hello world";
-	int sendNum = 0;
+	std::string hello = "hello";
 
 	//firetube send data
-	sendNum = tube.writeServerData(server, buffer, strlen(buffer));
-
+	firetube::FT_SIZE size = server->write(const_cast<char*>(hello.c_str()), hello.size());
+	if(server->getStatus() != firetube::TubeStatus::TS_READY){
+		cout << "server status is fail!" <<endl;
+		return -1;
+	}
+	char buffer[1024] = {0};
 	//while loop recv data
 	while(1){
 		//recv data
-		int readNum = tube.readServerData(server,buffer,1024);//server->read(buffer, 1024);
+		int readNum = server->read(buffer,1024);//server->read(buffer, 1024);
+		if(server->getStatus() != firetube::TubeStatus::TS_READY){
+			cout << "server status is fail!" <<endl;
+			break;
+		}
 		//print string buffer
 		cout << "data:" << buffer << endl;
 
@@ -54,8 +51,10 @@ void main(){
 	}
 
 	//close server
-	tube.closeServer(server);
+	server->close();
+	delete server;
 	system("pause");
+	return 0;
 }
 
 

@@ -1,7 +1,6 @@
-#include "firetube.h"
+#include "ftclient.h"
 
 #include <iostream>
-#include <windows.h>
 #include <stdio.h>
 #include <string>
 using namespace std;
@@ -10,45 +9,53 @@ using namespace std;
 #define TUBE_NAME "testtube"
 
 //tube client
-void main(){
-	firetube::FireTube tube = firetube::FireTube();
+int main(){
 
-	//create firetube client
 	firetube::ResultStatus createResult = firetube::ResultStatus::RS_SUCCESS;
-	firetube::FireTubeClient* client = tube.createClient(TUBE_NAME,&createResult);
+	firetube::FireTubeClient* client = firetube::FireTubeClient::createClient(TUBE_NAME,&createResult);
+	
 	//check if client is null
 	if (client == NULL)
 	{
 		cout << "create client fail." << endl;
 		system("pause");
-		return;
+		return -1;
 	}
 
 	//client read data onece
 	char buffer[1024];
 	int readNum = 0;
 	//recv data
-	readNum = tube.readClientData(client,buffer,1024);
+	readNum = client->read(buffer,1024);
+	if(client->getStatus() != firetube::TubeStatus::TS_READY){
+		cout << "client status is fail!" <<endl;
+		return -1;
+	}
 
 	//print string buffer
 	cout << "data:" << buffer << endl;
 
-
 	//send buffer to server
 	while(1){
-		gets_s(buffer, 1024);
-		string input = buffer;
-		tube.writeClientData(client, buffer, strlen(buffer));
-		//client->write(buffer, strlen(buffer));
-		
-		if(input == "exit"){
+		std::string line;
+		std::cin >> line;
+		char* linestr = const_cast<char*>(line.c_str());
+		client->write(linestr, line.size());
+		if(client->getStatus() != firetube::TubeStatus::TS_READY){
+			cout << "client status is fail!" <<endl;
 			break;
 		}
-		memset(buffer, 0, 1024);
+		//client->write(buffer, strlen(buffer));
+		
+		if(line == "exit"){
+			break;
+		}
 	}
 	//close client
-	tube.closeClient(client);
+	client->close();
+	delete client;
 	system("pause");
+	return 0;
 }
 // void  main()
 // {

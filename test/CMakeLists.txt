@@ -22,7 +22,7 @@ set(CMAKE_CXX_STANDARD 17)
 # endif()
 # message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
 
-set(CMAKE_EXE_LINKER_FLAGS " -static")
+set(CMAKE_EXE_LINKER_FLAGS " -static -pthread")
 
 
 if(MSVC)

@@ -12,9 +12,9 @@ public:
     FireTubeServer(std::string name);
     ~FireTubeServer();
 
+    static FireTubeServer* createServer(std::string name,ResultStatus* status);
+
     ResultStatus init() override;
-    //close override
-    ResultStatus close() override;
 };
 
 

@@ -6,8 +6,10 @@
 #include "ftdef.h"
 
 #include <string>
+#include <unordered_map>
 
 namespace FT_NS{//namespace FT_NS start
+
 
 enum ResultStatus{
     RS_SUCCESS = 0,
@@ -32,6 +34,7 @@ protected:
     TubeStatus m_status = TubeStatus::TS_NEW;
     std::string m_name;
     FT_HANDLE m_tube = NULL;
+    std::unordered_map<std::string,void*> datas;
 public:
     FireTubeBase(std::string name);
     ~FireTubeBase();

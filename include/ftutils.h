@@ -9,7 +9,10 @@
 #ifdef _WIN32
 #define FT_PIPE_PREFIX "\\\\.\\pipe\\"
 #else
-#define FT_PIPE_PREFIX "/tmp/"
+//linux pipe name : /tmp/pipe_test_s2c /tmp/pipe_test_c2s
+//s2c = server to client
+//c2s = client to server
+#define FT_PIPE_PREFIX "/tmp/pipe_"
 #endif
 
 namespace FT_NS{//namespace FT_NS start

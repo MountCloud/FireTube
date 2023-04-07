@@ -12,7 +12,10 @@ public:
     FireTubeClient(std::string name);
     ~FireTubeClient();
 
+    static FireTubeClient* createClient(std::string name,ResultStatus* status);
+
     ResultStatus init() override;
+    
 };
 
 

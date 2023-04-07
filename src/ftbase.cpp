@@ -24,9 +24,3 @@ FT_NS::TubeStatus FT_NS::FireTubeBase::getStatus()
 {
     return this->m_status;
 }
-
-
-//init empty func
-FT_NS::ResultStatus FT_NS::FireTubeBase::init(){
-    return ResultStatus::RS_SUCCESS;
-}

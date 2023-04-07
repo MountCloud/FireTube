@@ -1,7 +1,6 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
 set(FIRETUBE_SOURCE
-    ${CMAKE_CURRENT_LIST_DIR}/src/firetube.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/ftclient.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/ftserver.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/ftutils.cpp
@@ -23,5 +22,8 @@ message(STATUS "Using firetube linux system source files.")
 #linux
 set(FIRETUBE_SOURCE
     ${FIRETUBE_SOURCE}
+    ${CMAKE_CURRENT_LIST_DIR}/src/linux/ftbase_linux.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/linux/ftclient_linux.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/linux/ftserver_linux.cpp
 )
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Windows") 

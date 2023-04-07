@@ -13,7 +13,7 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
 		return FT_NS::ResultStatus::RS_FAULT;
 	}
 
-		//backgroup thread connnect named pipe
+	//backgroup thread connnect named pipe
 	std::thread t([this, hPipe](){
 		if (ConnectNamedPipe(hPipe, NULL) == FALSE)
 		{
@@ -32,33 +32,4 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
 	t.detach();
 
     return FT_NS::ResultStatus::RS_SUCCESS;
-}
-
-//close
-FT_NS::ResultStatus FT_NS::FireTubeServer::close()
-{
-	if (this->m_status == FT_NS::TubeStatus::TS_CLOSED)
-	{
-		return FT_NS::ResultStatus::RS_SUCCESS;
-	}
-	if (this->m_status == FT_NS::TubeStatus::TS_FAULT)
-	{
-		return FT_NS::ResultStatus::RS_FAULT;
-	}
-	if (this->m_status == FT_NS::TubeStatus::TS_NEW)
-	{
-		return FT_NS::ResultStatus::RS_SUCCESS;
-	}
-	if (this->m_status == FT_NS::TubeStatus::TS_READY)
-	{
-		if (DisconnectNamedPipe(this->m_tube) == FALSE)
-		{
-			return FT_NS::ResultStatus::RS_FAULT;
-		}
-		CloseHandle(this->m_tube);
-
-		this->m_status = FT_NS::TubeStatus::TS_CLOSED;
-		return FT_NS::ResultStatus::RS_SUCCESS;
-	}
-	return FT_NS::ResultStatus::RS_FAULT;
 }
