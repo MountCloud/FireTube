@@ -20,3 +20,15 @@ FT_NS::ResultStatus FT_NS::FireTubeClient::init()
 	this->m_status = TubeStatus::TS_READY;
     return FT_NS::ResultStatus::RS_SUCCESS;
 }
+
+FT_NS::ResultStatus FT_NS::FireTubeClient::close(){
+	return FT_NS::FireTubeBase::close();
+}
+
+FT_NS::FT_SIZE FT_NS::FireTubeClient::read(char* buffer, FT_NS::FT_SIZE size){
+    return FT_NS::FireTubeBase::read(buffer,size);
+}
+FT_NS::FT_SIZE FT_NS::FireTubeClient::write(char* buffer, FT_NS::FT_SIZE size){
+    return FT_NS::FireTubeBase::write(buffer,size);
+}
+

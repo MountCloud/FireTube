@@ -15,8 +15,10 @@ public:
     static FireTubeServer* createServer(std::string name,ResultStatus* status);
 
     ResultStatus init() override;
-
     ResultStatus close() override;
+
+    FT_SIZE read(char* buffer, FT_SIZE size) override;
+    FT_SIZE write(char* buffer, FT_SIZE size) override;
 };
 
 

@@ -73,6 +73,9 @@
         "cstdarg": "cpp",
         "cwctype": "cpp",
         "fstream": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "condition_variable": "cpp",
+        "xthread": "cpp",
+        "xmemory0": "cpp"
     }
 }

@@ -29,7 +29,7 @@ FT_NS::ResultStatus FT_NS::FireTubeBase::close(){
 			return FT_NS::ResultStatus::RS_FAULT;
 		}
 		CloseHandle(this->m_tube);
-        this->m_tube = NULL:
+        this->m_tube = NULL;
 
 		this->m_status = FT_NS::TubeStatus::TS_CLOSED;
 		return FT_NS::ResultStatus::RS_SUCCESS;

@@ -5,22 +5,6 @@ project(firetube_test)
 set(EXE_NAME "firetube_test")
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread -O3")
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-elide-constructors")
-
-# SET(CMAKE_EXE_LINKER_FLAGS "-static")
-
-# set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-# set(CMAKE_SHARED_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-
-#set(CMAKE_BUILD_TYPE Debug CACHE STRING "set build type to debug")
-#set(CMAKE_BUILD_TYPE Release CACHE STRING "set build type to Release")
-
-# message(STATUS "VCPKG_HOME: $ENV{VCPKG_HOME}")
-# if(DEFINED ENV{VCPKG_HOME} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-# 	set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_HOME}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
-# endif()
-# message(STATUS "CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
 
 set(CMAKE_EXE_LINKER_FLAGS " -static -pthread")
 

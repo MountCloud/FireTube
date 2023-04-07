@@ -70,3 +70,10 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::close(){
     this->m_status = FT_NS::TubeStatus::TS_CLOSED;
     return FT_NS::ResultStatus::RS_SUCCESS;
 }
+
+FT_NS::FT_SIZE FT_NS::FireTubeServer::read(char* buffer, FT_NS::FT_SIZE size){
+    return FT_NS::FireTubeBase::read(buffer,size);
+}
+FT_NS::FT_SIZE FT_NS::FireTubeServer::write(char* buffer, FT_NS::FT_SIZE size){
+    return FT_NS::FireTubeBase::write(buffer,size);
+}
