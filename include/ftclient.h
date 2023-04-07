@@ -16,6 +16,7 @@ public:
 
     ResultStatus init() override;
     
+    ResultStatus close() override;
 };
 
 

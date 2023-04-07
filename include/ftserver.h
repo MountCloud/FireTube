@@ -15,6 +15,8 @@ public:
     static FireTubeServer* createServer(std::string name,ResultStatus* status);
 
     ResultStatus init() override;
+
+    ResultStatus close() override;
 };
 
 

@@ -34,8 +34,8 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
         }
         //server write only s2c
         std::string s2cspipename = this->getName() + "_s2c";
-        int s2cfd = open(c2spipename.c_str(),O_WRONLY);
-        if(c2sfd < 0){
+        int s2cfd = open(s2cspipename.c_str(),O_WRONLY);
+        if(s2cfd < 0){
             ::close(c2sfd);
             this->m_status = FT_NS::TubeStatus::TS_FAULT;
             return;
@@ -50,4 +50,23 @@ FT_NS::ResultStatus FT_NS::FireTubeServer::init(){
     });
     bs.detach();
 
+}
+
+
+FT_NS::ResultStatus FT_NS::FireTubeServer::close(){
+    if(this->m_status ==  FT_NS::TubeStatus::TS_CLOSED){
+        return FT_NS::ResultStatus::RS_SUCCESS;
+    }
+    FT_NS::ResultStatus ret = FT_NS::FireTubeBase::close();
+    if(ret != FT_NS::ResultStatus::RS_SUCCESS){
+        return ret;
+    }
+    if(this->datas.find("initlock") != this->datas.end()){
+        std::mutex* mtx = (std::mutex*)this->datas["initlock"];
+        this->datas.erase("initlock");
+        mtx->unlock();
+        delete mtx;
+    }
+    this->m_status = FT_NS::TubeStatus::TS_CLOSED;
+    return FT_NS::ResultStatus::RS_SUCCESS;
 }

@@ -75,7 +75,7 @@ FT_NS::FT_SIZE FT_NS::FireTubeBase::read(char* buffer, FT_SIZE size){
     if(this->m_status == TubeStatus::TS_CLOSED){
         return ResultStatus::RS_LOCAL_CLOSE;
     }
-    //if type type:0=client/1=server
+    //if type type:0=client/1=server,fd type:0 c2s,1 s2c,
     int type = ((int *)this->m_tube)[2];
     int fd = 0;
     if(type == 0){
@@ -107,7 +107,7 @@ FT_NS::FT_SIZE FT_NS::FireTubeBase::write(char* buffer, FT_SIZE size){
     if(this->m_status == TubeStatus::TS_CLOSED){
         return ResultStatus::RS_LOCAL_CLOSE;
     }
-    //if type type:0=client/1=server
+    //if type type:0=client/1=server,fd type:0 c2s,1 s2c,
     int type = ((int *)this->m_tube)[2];
     int fd = 0;
     if(type == 0){
