@@ -11,6 +11,7 @@
 #else
 #include <unistd.h>
 #include <cstdio>
+#include <string.h>
 #endif
 
 using namespace std;
@@ -58,7 +59,7 @@ int main(){
 
 
 	int threadNum = 10;
-	atomic<int> execedThreadNum = 0;
+	atomic<int> execedThreadNum(0);
 	
 	auto threadfuc = [client,data,&execedThreadNum](int tnum){
 		std::string tnumstr = to_string(tnum) + "_";

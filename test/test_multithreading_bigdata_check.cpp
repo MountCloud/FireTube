@@ -9,6 +9,7 @@
 #else
 #include <unistd.h>
 #include <cstdio>
+#include <string.h>
 #endif
 
 using namespace std;
