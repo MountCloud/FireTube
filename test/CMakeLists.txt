@@ -62,6 +62,22 @@ add_executable(${EXE_NAME}_imput_msg_server
     ${PROJECT_SOURCE_DIR}/test_input_msg_server.cpp
 )
 
+#exe配置
+add_executable(${EXE_NAME}_multithreading_bigdata_client
+    ${FIRETUBE_SOURCE}
+    ${PROJECT_SOURCE_DIR}/test_multithreading_bigdata_client.cpp
+)
+
+add_executable(${EXE_NAME}_multithreading_bigdata_server
+    ${FIRETUBE_SOURCE}
+    ${PROJECT_SOURCE_DIR}/test_multithreading_bigdata_server.cpp
+)
+
+add_executable(${EXE_NAME}_multithreading_bigdata_check
+    ${FIRETUBE_SOURCE}
+    ${PROJECT_SOURCE_DIR}/test_multithreading_bigdata_check.cpp
+)
+
 # target_include_directories(${EXE_NAME}
 #     PRIVATE
 #         ${COMMON_DIR}

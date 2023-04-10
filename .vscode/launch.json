@@ -33,7 +33,7 @@
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/test/bin/Debug/firetube_test_server.exe",
+            "program": "${workspaceFolder}/test/bin/Debug/firetube_test_multithreading_bigdata_check.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
