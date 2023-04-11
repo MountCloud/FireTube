@@ -52,12 +52,12 @@ include_directories(${INCLUDE_DIR})
 include(${DIR_ONE_ABOVE}/firetube.cmake)
 
 #exe配置
-add_executable(${EXE_NAME}_imput_msg_client
+add_executable(${EXE_NAME}_input_msg_client
     ${FIRETUBE_SOURCE}
     ${PROJECT_SOURCE_DIR}/test_input_msg_client.cpp
 )
 
-add_executable(${EXE_NAME}_imput_msg_server
+add_executable(${EXE_NAME}_input_msg_server
     ${FIRETUBE_SOURCE}
     ${PROJECT_SOURCE_DIR}/test_input_msg_server.cpp
 )

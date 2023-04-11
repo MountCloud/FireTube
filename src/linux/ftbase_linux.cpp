@@ -24,6 +24,8 @@ FT_NS::ResultStatus FT_NS::FireTubeBase::init(){
         return ResultStatus::RS_FAULT;
     }
 
+    datas["writemutex"] = new std::mutex();
+
     return FT_NS::ResultStatus::RS_SUCCESS;
 }
 
@@ -58,6 +60,11 @@ FT_NS::ResultStatus FT_NS::FireTubeBase::close(){
 		this->m_status = FT_NS::TubeStatus::TS_CLOSED;
 		return FT_NS::ResultStatus::RS_SUCCESS;
 	}
+    if(datas.find("writemutex") != datas.end() && datas["writemutex"] != NULL){
+        std::mutex* wm = (std::mutex*)datas["writemutex"];
+        delete wm;
+        datas.erase("writemutex");
+    }
 	return FT_NS::ResultStatus::RS_FAULT;
 }
 
@@ -95,6 +102,10 @@ FT_NS::FT_SIZE FT_NS::FireTubeBase::read(char* buffer, FT_SIZE size){
 }
 
 FT_NS::FT_SIZE FT_NS::FireTubeBase::write(char* buffer, FT_SIZE size){
+    //linux wirte 线程不安全
+    std::mutex* wm = (std::mutex*)datas["writemutex"];
+    std::unique_lock<std::mutex> ul(*wm);
+    
 	if(this->m_status == FT_NS::TubeStatus::TS_NEW){
         std::mutex* mtx = (std::mutex*)this->datas["initlock"];
 		std::condition_variable* initcv = (std::condition_variable*)datas["initcv"];

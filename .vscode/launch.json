@@ -8,7 +8,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/test/bin/firetube_test_server",
+            "program": "${workspaceFolder}/test/bin/firetube_test_multithreading_bigdata_check",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
